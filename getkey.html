@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MinhZ Hub | Security Check</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Segoe UI', sans-serif; background: #0c0c1a; color: white; display: flex; align-items: center; justify-content: center; min-height: 100vh; overflow: hidden; }
+        .card { background: rgba(255,255,255,0.03); padding: 40px; border-radius: 24px; border: 1px solid rgba(255,255,255,0.1); width: 90%; max-width: 420px; text-align: center; backdrop-filter: blur(20px); box-shadow: 0 20px 50px rgba(0,0,0,0.5); }
+        h2 { font-size: 1.8rem; margin-bottom: 8px; font-weight: 700; }
+        .sub { color: rgba(255,255,255,0.5); font-size: 0.95rem; margin-bottom: 25px; }
+        .progress-container { width: 100%; height: 8px; background: rgba(255,255,255,0.05); border-radius: 10px; margin: 20px 0; position: relative; overflow: hidden; }
+        #fill { height: 100%; background: linear-gradient(90deg, #4287f5, #c850b4); width: 0%; transition: 1s cubic-bezier(0.4, 0, 0.2, 1); }
+        #stepTxt { font-weight: 800; color: #c850b4; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; }
+        .btn { padding: 16px; border-radius: 12px; border: none; background: #4287f5; color: white; font-weight: 700; cursor: pointer; width: 100%; transition: 0.3s; margin-top: 25px; text-decoration: none; display: block; font-size: 1rem; }
+        .btn:hover { background: #357ae8; transform: translateY(-2px); box-shadow: 0 8px 20px rgba(66, 135, 245, 0.3); }
+        .key-box { display: none; margin-top: 25px; padding: 18px; border: 1px dashed #00ff88; color: #00ff88; border-radius: 12px; font-family: 'Consolas', monospace; background: rgba(0, 255, 136, 0.05); font-size: 1rem; word-break: break-all; cursor: pointer; position: relative; }
+        .status { font-size: 0.85rem; color: #ffbc00; margin-top: 15px; background: rgba(255, 188, 0, 0.1); padding: 8px; border-radius: 8px; display: none; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h2 id="title">Security Check</h2>
+        <p class="sub" id="subTitle">Complete The Ad To Get The MinhZ Key</p>
+        
+        <div class="progress-container"><div id="fill"></div></div>
+        <p id="stepTxt">Verifying Session...</p>
+        <p id="statusMsg" class="status"></p>
+        
+        <a href="#" class="btn" id="actionBtn">Unlock Checkpoint</a>
+        
+        <div id="keyBox" class="key-box" onclick="copyKey()"></div>
+        <a href="/" id="backBtn" style="display:none; color:rgba(255,255,255,0.4); text-decoration:none; margin-top:20px; font-size: 0.9rem; display: block;">← Back To Home</a>
+    </div>
+
+    <script>
+        const adLinks = [
+            "https://link-center.net/1353066/nz6RXhxa6w1C",
+            "https://link-target.net/1353066/F3kog1sxJlIa",
+            "https://link-center.net/1353066/Wt1nJjeMKiVu"
+        ];
+
+        const path = window.location.pathname;
+        const btn = document.getElementById('actionBtn');
+        const statusMsg = document.getElementById('statusMsg');
+
+        let currentUrlStep = 1;
+        if(path.includes("/cp2")) currentUrlStep = 2;
+        else if(path.includes("/cp3")) currentUrlStep = 3;
+        else if(path.includes("/final")) currentUrlStep = 4;
+
+        let savedProgress = parseInt(localStorage.getItem('mz_step') || "1");
+        let expectedNext = parseInt(localStorage.getItem('mz_expected_next') || "0");
+
+        if ((currentUrlStep === savedProgress) || (currentUrlStep === savedProgress + 1 && currentUrlStep === expectedNext)) {
+            localStorage.setItem('mz_step', currentUrlStep);
+            savedProgress = currentUrlStep;
+            localStorage.removeItem('mz_expected_next');
+            render(currentUrlStep);
+        } 
+        else if (currentUrlStep > savedProgress) {
+            statusMsg.innerText = "Please Complete The Previous Step First!";
+            statusMsg.style.display = "block";
+            btn.style.display = "none";
+            setTimeout(() => {
+                const backUrl = savedProgress === 1 ? "/getkey" : (savedProgress === 2 ? "/getkey/cp2" : "/getkey/cp3");
+                window.location.href = backUrl;
+            }, 1500);
+        }
+        else {
+            render(currentUrlStep);
+        }
+
+        if (expectedNext && currentUrlStep !== expectedNext) {
+            localStorage.removeItem('mz_expected_next');
+        }
+
+        function render(step) {
+            const fill = document.getElementById('fill');
+            const stepTxt = document.getElementById('stepTxt');
+            const keyBox = document.getElementById('keyBox');
+
+            if(step <= 3) {
+                fill.style.width = ((step-1)/3*100) + "%";
+                stepTxt.innerText = `Checkpoint ${step} / 3`;
+                btn.innerText = `Continue To Checkpoint ${step}`;
+                btn.onclick = () => {
+                    localStorage.setItem('mz_expected_next', (step + 1).toString());
+                    window.location.href = adLinks[step - 1];
+                };
+            } else {
+                document.getElementById('title').innerText = "Access Granted!";
+                document.getElementById('subTitle').innerText = "Your 24H Key Has Been Generated.";
+                fill.style.width = "100%";
+                fill.style.background = "#00ff88";
+                btn.style.display = "none";
+                stepTxt.style.display = "none";
+
+                const timestamp = Math.floor(Date.now() / 1000).toString(36);
+                const randomPart = Math.random().toString(36).substring(2, 8).toUpperCase();
+                keyBox.innerText = `MinhZ-${randomPart}-${timestamp}`;
+                keyBox.style.display = "block";
+                document.getElementById('backBtn').style.display = "block";
+                
+                localStorage.setItem('mz_step', 1);
+            }
+        }
+
+        function copyKey() {
+            const text = document.getElementById('keyBox').innerText;
+            navigator.clipboard.writeText(text);
+            alert("Key Copied!");
+        }
+    </script>
+</body>
+</html>

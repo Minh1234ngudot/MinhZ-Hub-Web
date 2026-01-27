@@ -1,0 +1,6 @@
+{
+  "rewrites": [
+    { "source": "/getkey/:path*", "destination": "/getkey.html" },
+    { "source": "/loader", "destination": "/MinhZ-Loader/loader.lua" }
+  ]
+}
