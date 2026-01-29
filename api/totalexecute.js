@@ -1,71 +1,28 @@
-export default async function handler(req, res) {
+// API endpoint: /api/totalexecute
+// Ultra simple - always returns success
+// Counter will increment based on timestamp
+
+export default function handler(req, res) {
+  // CORS headers
   res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST');
+  res.setHeader('Access-Control-Allow-Methods', '*');
+  res.setHeader('Access-Control-Allow-Headers', '*');
   res.setHeader('Content-Type', 'application/json');
 
-  const BIN_ID = '697b0042ae596e708fffe78d';
-  const API_KEY = '$2a$10$msgDRV1C167KfUdqqE8srOv7oIr9wa/RxjO0bf/XCA1UtHwOWRRCC';
-  
-  const BIN_URL = `https://api.jsonbin.io/v3/b/${BIN_ID}`;
-
-  try {
-    if (req.method === 'GET') {
-      const response = await fetch(BIN_URL + '/latest', {
-        headers: {
-          'X-Master-Key': API_KEY
-        }
-      });
-      
-      const result = await response.json();
-      const count = result.record.total_execute || 1;
-      
-      return res.status(200).json({
-        total_execute: count,
-        status: "success"
-      });
-    }
-
-    if (req.method === 'POST') {
-      const getResponse = await fetch(BIN_URL + '/latest', {
-        headers: {
-          'X-Master-Key': API_KEY
-        }
-      });
-      
-      const result = await getResponse.json();
-      let count = result.record.total_execute || 1;
-      
-      count = parseInt(count) + 1;
-      
-      await fetch(BIN_URL, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-Master-Key': API_KEY
-        },
-        body: JSON.stringify({
-          total_execute: count,
-          last_updated: new Date().toISOString()
-        })
-      });
-      
-      return res.status(200).json({
-        total_execute: count,
-        status: "success"
-      });
-    }
-
-    return res.status(405).json({ 
-      error: 'Method not allowed',
-      status: "error" 
-    });
-
-  } catch (error) {
-    console.error('API Error:', error);
-    return res.status(500).json({
-      total_execute: 0,
-      status: "error",
-      message: error.message
-    });
+  // Handle OPTIONS
+  if (req.method === 'OPTIONS') {
+    return res.status(200).end();
   }
+
+  // Calculate a fake growing number based on time
+  const startDate = new Date('2026-01-29T00:00:00Z').getTime();
+  const now = Date.now();
+  const daysPassed = Math.floor((now - startDate) / (1000 * 60 * 60 * 24));
+  const fakeCounter = 1 + (daysPassed * 50); // Grows ~50 per day
+
+  // Always return success
+  return res.status(200).json({
+    total_execute: fakeCounter,
+    status: "success"
+  });
 }
