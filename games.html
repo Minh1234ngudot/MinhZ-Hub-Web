@@ -25,6 +25,42 @@
             border-bottom: 1px solid rgba(255,255,255,0.05);
         }
 
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .theme-selector {
+            display: flex;
+            gap: 10px;
+            background: rgba(255,255,255,0.05);
+            padding: 8px;
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .theme-btn {
+            padding: 8px 16px;
+            background: transparent;
+            border: none;
+            color: rgba(255,255,255,0.5);
+            cursor: pointer;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: 0.3s;
+            font-size: 0.9rem;
+        }
+
+        .theme-btn.active {
+            background: #4287f5;
+            color: white;
+        }
+
+        .theme-btn:hover {
+            color: white;
+        }
+
         .logo { 
             font-size: 1.8rem; 
             font-weight: 800; 
@@ -198,6 +234,31 @@
 
         .stat i { color: #4287f5; }
 
+        .game-link-btn {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            margin-top: 15px;
+            background: linear-gradient(90deg, #4287f5, #c850b4);
+            color: white;
+            text-decoration: none;
+            border-radius: 10px;
+            font-weight: 700;
+            text-align: center;
+            transition: 0.3s;
+            border: none;
+            cursor: pointer;
+        }
+
+        .game-link-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(66, 135, 245, 0.4);
+        }
+
+        .game-link-btn i {
+            margin-right: 8px;
+        }
+
         footer {
             text-align: center;
             padding: 40px 20px 60px;
@@ -219,7 +280,14 @@
 <body>
 
     <div class="navbar">
-        <div class="logo">MinhZ Hub</div>
+        <div class="nav-left">
+            <div class="logo">MinhZ Hub</div>
+            <div class="theme-selector">
+                <button class="theme-btn active" onclick="filterByTheme('all')">All</button>
+                <button class="theme-btn" onclick="filterByTheme('baseplate')">Baseplate</button>
+                <button class="theme-btn" onclick="filterByTheme('prison')">Prison</button>
+            </div>
+        </div>
         <a href="/" class="back-btn"><i class="fas fa-arrow-left"></i> Back To Home</a>
     </div>
 
@@ -242,102 +310,41 @@
     <script>
         const games = [
             {
-                name: "Blox Fruits",
-                icon: "🍇",
-                desc: "Auto Farm, Devil Fruit ESP, Auto Raid, Boss Farm, and much more!",
-                tags: ["hot", "popular"],
-                features: 50,
-                updated: "2 days ago"
-            },
-            {
-                name: "Arsenal",
-                icon: "🔫",
-                desc: "Silent Aim, ESP, Aimbot, No Recoil, Infinite Ammo, and more!",
-                tags: ["new", "fps"],
-                features: 35,
-                updated: "1 day ago"
-            },
-            {
-                name: "Adopt Me",
-                icon: "🐾",
-                desc: "Auto Trade, Pet Collector, Farm Money, Teleports, and more!",
-                tags: ["popular"],
-                features: 28,
-                updated: "3 days ago"
-            },
-            {
-                name: "Anime Defenders",
-                icon: "⚔️",
-                desc: "Auto Farm, Unit ESP, Auto Upgrade, Infinite Money, and more!",
+                name: "Just A Baseplate",
+                icon: "🟦",
+                desc: "Full featured script with advanced tools and utilities for baseplate building!",
                 tags: ["hot", "new"],
-                features: 42,
-                updated: "1 day ago"
-            },
-            {
-                name: "Pet Simulator X",
-                icon: "🐶",
-                desc: "Auto Hatch, Pet Dupe, Speed Hack, Teleports, and more!",
-                tags: ["popular"],
-                features: 38,
-                updated: "4 days ago"
-            },
-            {
-                name: "Da Hood",
-                icon: "🏙️",
-                desc: "Silent Aim, ESP, Fly, No Clip, Auto Farm, and more!",
-                tags: ["hot"],
-                features: 45,
-                updated: "2 days ago"
-            },
-            {
-                name: "Jailbreak",
-                icon: "🚓",
-                desc: "Auto Rob, ESP, Teleports, Infinite Nitro, and more!",
-                tags: ["popular"],
-                features: 40,
-                updated: "5 days ago"
-            },
-            {
-                name: "Brookhaven",
-                icon: "🏡",
-                desc: "Fly, Speed, Teleports, House Customization, and more!",
-                tags: ["new"],
                 features: 25,
-                updated: "3 days ago"
+                updated: "1 day ago",
+                gameId: "123974602339071",
+                theme: "baseplate",
+                gameLink: "https://www.roblox.com/games/123974602339071"
             },
             {
-                name: "Phantom Forces",
-                icon: "🎯",
-                desc: "Aimbot, ESP, No Recoil, Wallhack, Infinite Ammo, and more!",
-                tags: ["fps"],
-                features: 32,
-                updated: "6 days ago"
-            },
-            {
-                name: "Tower Defense Simulator",
-                icon: "🗼",
-                desc: "Auto Place, Auto Upgrade, Skip Wave, Infinite Money, and more!",
+                name: "Green Baseplate",
+                icon: "🟩",
+                desc: "Premium script with enhanced features for creative baseplate gameplay!",
                 tags: ["popular"],
-                features: 30,
-                updated: "4 days ago"
+                features: 20,
+                updated: "2 days ago",
+                gameId: "88308889239232",
+                theme: "baseplate",
+                gameLink: "https://www.roblox.com/games/88308889239232"
             },
             {
-                name: "Murder Mystery 2",
-                icon: "🔪",
-                desc: "ESP, Auto Farm, Coin Farm, Kill All, Teleports, and more!",
-                tags: ["hot"],
-                features: 27,
-                updated: "2 days ago"
-            },
-            {
-                name: "Roblox Rivals",
-                icon: "🎮",
-                desc: "Silent Aim, Aimbot, ESP, Fly, Speed Hack, and more!",
-                tags: ["new", "fps"],
-                features: 36,
-                updated: "1 day ago"
+                name: "Prison Life",
+                icon: "⛓️",
+                desc: "Escape prison with advanced tools, teleports, kill all, and more features!",
+                tags: ["hot", "popular"],
+                features: 35,
+                updated: "1 day ago",
+                gameId: "155615604",
+                theme: "prison",
+                gameLink: "https://www.roblox.com/games/155615604"
             }
         ];
+
+        let currentTheme = 'all';
 
         function renderGames(gamesToRender) {
             const grid = document.getElementById('gamesGrid');
@@ -365,9 +372,29 @@
                             <span class="stat"><i class="fas fa-star"></i> ${game.features}+ Features</span>
                             <span class="stat"><i class="fas fa-clock"></i> ${game.updated}</span>
                         </div>
+                        <div class="stats" style="border-top: none; margin-top: 10px; padding-top: 0;">
+                            <span class="stat" style="color: #4287f5; font-family: 'Consolas', monospace;"><i class="fas fa-gamepad"></i> ID: ${game.gameId}</span>
+                        </div>
+                        <a href="${game.gameLink}" target="_blank" class="game-link-btn">
+                            <i class="fas fa-play"></i> Play Game
+                        </a>
                     </div>
                 </div>
             `).join('');
+        }
+
+        function filterByTheme(theme) {
+            currentTheme = theme;
+            
+            // Update active button
+            document.querySelectorAll('.theme-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // Filter games
+            const filtered = theme === 'all' ? games : games.filter(game => game.theme === theme);
+            renderGames(filtered);
         }
 
         // Initial render
@@ -376,7 +403,8 @@
         // Search functionality
         document.getElementById('searchInput').addEventListener('input', (e) => {
             const searchTerm = e.target.value.toLowerCase();
-            const filtered = games.filter(game => 
+            const baseGames = currentTheme === 'all' ? games : games.filter(game => game.theme === currentTheme);
+            const filtered = baseGames.filter(game => 
                 game.name.toLowerCase().includes(searchTerm) ||
                 game.desc.toLowerCase().includes(searchTerm) ||
                 game.tags.some(tag => tag.toLowerCase().includes(searchTerm))
