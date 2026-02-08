@@ -25,42 +25,6 @@
             border-bottom: 1px solid rgba(255,255,255,0.05);
         }
 
-        .nav-left {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-        }
-
-        .theme-selector {
-            display: flex;
-            gap: 10px;
-            background: rgba(255,255,255,0.05);
-            padding: 8px;
-            border-radius: 12px;
-            border: 1px solid rgba(255,255,255,0.1);
-        }
-
-        .theme-btn {
-            padding: 8px 16px;
-            background: transparent;
-            border: none;
-            color: rgba(255,255,255,0.5);
-            cursor: pointer;
-            border-radius: 8px;
-            font-weight: 600;
-            transition: 0.3s;
-            font-size: 0.9rem;
-        }
-
-        .theme-btn.active {
-            background: #4287f5;
-            color: white;
-        }
-
-        .theme-btn:hover {
-            color: white;
-        }
-
         .logo { 
             font-size: 1.8rem; 
             font-weight: 800; 
@@ -294,6 +258,12 @@
             box-shadow: 0 4px 15px rgba(255, 68, 68, 0.4);
         }
 
+        .status-badge.beta {
+            background: rgba(138, 43, 226, 0.9);
+            color: #fff;
+            box-shadow: 0 4px 15px rgba(138, 43, 226, 0.4);
+        }
+
         .status-dot {
             width: 6px;
             height: 6px;
@@ -328,14 +298,7 @@
 <body>
 
     <div class="navbar">
-        <div class="nav-left">
-            <div class="logo">MinhZ Hub</div>
-            <div class="theme-selector">
-                <button class="theme-btn active" onclick="filterByTheme('all')">All</button>
-                <button class="theme-btn" onclick="filterByTheme('baseplate')">Baseplate</button>
-                <button class="theme-btn" onclick="filterByTheme('prison')">Prison</button>
-            </div>
-        </div>
+        <div class="logo">MinhZ Hub</div>
         <a href="/" class="back-btn"><i class="fas fa-arrow-left"></i> Back To Home</a>
     </div>
 
@@ -394,11 +357,9 @@
                 gameId: "155615604",
                 theme: "prison",
                 gameLink: "https://www.roblox.com/games/155615604",
-                status: "working"
+                status: "beta"
             }
         ];
-
-        let currentTheme = 'all';
 
         function renderGames(gamesToRender) {
             const grid = document.getElementById('gamesGrid');
@@ -413,13 +374,20 @@
             grid.style.display = 'grid';
             noResults.style.display = 'none';
             
+            const statusText = {
+                'working': 'WORKING',
+                'updating': 'UPDATING',
+                'broken': 'BROKEN',
+                'beta': 'WORK BUT SOME BUG (BETA)'
+            };
+            
             grid.innerHTML = gamesToRender.map(game => `
                 <div class="game-card">
                     <div class="game-image">
                         <img src="${game.image}" alt="${game.name}" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22><text y=%2250%%22 font-size=%2248%22>${game.icon}</text></svg>'">
                         <span class="status-badge ${game.status}">
                             <span class="status-dot"></span>
-                            ${game.status}
+                            ${statusText[game.status]}
                         </span>
                     </div>
                     <div class="game-content">
@@ -443,28 +411,13 @@
             `).join('');
         }
 
-        function filterByTheme(theme) {
-            currentTheme = theme;
-            
-            // Update active button
-            document.querySelectorAll('.theme-btn').forEach(btn => {
-                btn.classList.remove('active');
-            });
-            event.target.classList.add('active');
-            
-            // Filter games
-            const filtered = theme === 'all' ? games : games.filter(game => game.theme === theme);
-            renderGames(filtered);
-        }
-
         // Initial render
         renderGames(games);
 
         // Search functionality
         document.getElementById('searchInput').addEventListener('input', (e) => {
             const searchTerm = e.target.value.toLowerCase();
-            const baseGames = currentTheme === 'all' ? games : games.filter(game => game.theme === currentTheme);
-            const filtered = baseGames.filter(game => 
+            const filtered = games.filter(game => 
                 game.name.toLowerCase().includes(searchTerm) ||
                 game.desc.toLowerCase().includes(searchTerm) ||
                 game.tags.some(tag => tag.toLowerCase().includes(searchTerm))
