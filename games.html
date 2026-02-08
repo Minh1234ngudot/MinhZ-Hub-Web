@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&display=swap');
-
+        
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { 
             font-family: 'Inter', sans-serif; 
@@ -330,15 +330,15 @@
 
     <div class="header-section">
         <h1>Supported Games</h1>
-        <p>Explore our collection of premium Roblox scripts with advanced features and bypasses.</p>
+        <p>Explore Our Collection Of Premium Roblox Scripts With Advanced Features And Bypasses.</p>
     </div>
 
     <div class="search-bar">
-        <input type="text" class="search-input" id="searchInput" placeholder="🔍 Search for games...">
+        <input type="text" class="search-input" id="searchInput" placeholder="🔍 Search For Games...">
     </div>
 
     <div class="games-grid" id="gamesGrid"></div>
-    <div class="no-results" id="noResults">No games found matching your search.</div>
+    <div class="no-results" id="noResults">No Games Found Matching Your Search.</div>
 
     <footer>
         Designed By <strong>MinhZ Hub</strong> &copy; 2026
@@ -350,9 +350,9 @@
                 name: "Just A Baseplate",
                 icon: "🟦",
                 image: "https://tr.rbxcdn.com/180DAY-20f1913cc86f121dbbe4c246932e0e34/768/432/Image/Webp/noFilter",
-                desc: "Full featured script with advanced tools and utilities for baseplate building!",
-                tags: ["hot", "new"],
-                features: 25,
+                desc: "Full Featured Script With Advanced Tools And Utilities For Baseplate Building!",
+                tags: ["hot", "popular"],
+                features: 6,
                 updated: "1 day ago",
                 gameId: "123974602339071",
                 theme: "baseplate",
@@ -363,10 +363,10 @@
                 name: "Green Baseplate",
                 icon: "🟩",
                 image: "https://tr.rbxcdn.com/180DAY-adaf587baf97eb68fcc76ad57031d35b/768/432/Image/Webp/noFilter",
-                desc: "Premium script with enhanced features for creative baseplate gameplay!",
-                tags: ["popular"],
-                features: 20,
-                updated: "2 days ago",
+                desc: "Premium Script With Enhanced Features For Creative Baseplate Gameplay!",
+                tags: ["hot", "popular"],
+                features: 6,
+                updated: "1 days ago",
                 gameId: "88308889239232",
                 theme: "baseplate",
                 gameLink: "https://www.roblox.com/games/88308889239232",
@@ -376,10 +376,10 @@
                 name: "Prison Life",
                 icon: "⛓️",
                 image: "https://tr.rbxcdn.com/180DAY-8e16b433df6f2c94391865bc438e076a/768/432/Image/Webp/noFilter",
-                desc: "Escape prison with advanced tools, teleports, kill all, and more features!",
-                tags: ["hot", "popular"],
+                desc: "Escape Prison With Advanced Tools, Silent Aim, ESP, And More Features!",
+                tags: ["hot", "new"],
                 features: 35,
-                updated: "1 day ago",
+                updated: "4 Day Ago",
                 gameId: "155615604",
                 theme: "prison",
                 gameLink: "https://www.roblox.com/games/155615604",
@@ -459,14 +459,12 @@ loadstring(game:HttpGet("https://minhz-hub.vercel.app/loader"))()`;
                     btn.classList.remove('copied');
                 }, 2000);
             }).catch(err => {
-                alert('Failed to copy script!');
+                alert('Failed To Copy Script!');
             });
         }
 
-        // Initial render
         renderGames(games);
 
-        // Search functionality
         document.getElementById('searchInput').addEventListener('input', (e) => {
             const searchTerm = e.target.value.toLowerCase();
             const filtered = games.filter(game => 
