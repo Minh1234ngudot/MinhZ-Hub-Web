@@ -200,12 +200,15 @@
 
         .stat i { color: #4287f5; }
 
-        .game-link-btn {
-            display: block;
-            width: 100%;
-            padding: 12px;
+        .game-actions {
+            display: flex;
+            gap: 10px;
             margin-top: 15px;
-            background: linear-gradient(90deg, #4287f5, #c850b4);
+        }
+
+        .game-link-btn, .copy-script-btn {
+            flex: 1;
+            padding: 12px;
             color: white;
             text-decoration: none;
             border-radius: 10px;
@@ -214,6 +217,11 @@
             transition: 0.3s;
             border: none;
             cursor: pointer;
+            font-size: 0.9rem;
+        }
+
+        .game-link-btn {
+            background: linear-gradient(90deg, #4287f5, #c850b4);
         }
 
         .game-link-btn:hover {
@@ -221,8 +229,26 @@
             box-shadow: 0 8px 20px rgba(66, 135, 245, 0.4);
         }
 
-        .game-link-btn i {
-            margin-right: 8px;
+        .copy-script-btn {
+            background: rgba(0, 255, 136, 0.15);
+            border: 2px solid #00ff88;
+            color: #00ff88;
+        }
+
+        .copy-script-btn:hover {
+            background: #00ff88;
+            color: #000;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 255, 136, 0.4);
+        }
+
+        .copy-script-btn.copied {
+            background: #00ff88;
+            color: #000;
+        }
+
+        .game-link-btn i, .copy-script-btn i {
+            margin-right: 6px;
         }
 
         .status-badge {
@@ -381,7 +407,7 @@
                 'beta': 'WORK BUT SOME BUG (BETA)'
             };
             
-            grid.innerHTML = gamesToRender.map(game => `
+            grid.innerHTML = gamesToRender.map((game, index) => `
                 <div class="game-card">
                     <div class="game-image">
                         <img src="${game.image}" alt="${game.name}" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22><text y=%2250%%22 font-size=%2248%22>${game.icon}</text></svg>'">
@@ -403,12 +429,38 @@
                         <div class="stats" style="border-top: none; margin-top: 10px; padding-top: 0;">
                             <span class="stat" style="color: #4287f5; font-family: 'Consolas', monospace;"><i class="fas fa-gamepad"></i> ID: ${game.gameId}</span>
                         </div>
-                        <a href="${game.gameLink}" target="_blank" class="game-link-btn">
-                            <i class="fas fa-play"></i> Play Game
-                        </a>
+                        <div class="game-actions">
+                            <a href="${game.gameLink}" target="_blank" class="game-link-btn">
+                                <i class="fas fa-play"></i> Play Game
+                            </a>
+                            <button class="copy-script-btn" onclick="copyScript(${index})">
+                                <i class="fas fa-copy"></i> Copy Script
+                            </button>
+                        </div>
                     </div>
                 </div>
             `).join('');
+        }
+
+        function copyScript(index) {
+            const script = `getgenv()["Skip-Loader"] = false -- true Or false For Skip Loader
+loadstring(game:HttpGet("https://minhz-hub.vercel.app/loader"))()`;
+            
+            navigator.clipboard.writeText(script).then(() => {
+                const buttons = document.querySelectorAll('.copy-script-btn');
+                const btn = buttons[index];
+                const originalHTML = btn.innerHTML;
+                
+                btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+                btn.classList.add('copied');
+                
+                setTimeout(() => {
+                    btn.innerHTML = originalHTML;
+                    btn.classList.remove('copied');
+                }, 2000);
+            }).catch(err => {
+                alert('Failed to copy script!');
+            });
         }
 
         // Initial render
