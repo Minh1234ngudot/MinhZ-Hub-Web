@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MinhZ Hub | Supported Games</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&display=swap');
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background: #080810; 
+            color: white; 
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .navbar {
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .logo { 
+            font-size: 1.8rem; 
+            font-weight: 800; 
+            background: linear-gradient(90deg, #4287f5, #c850b4); 
+            -webkit-background-clip: text; 
+            -webkit-text-fill-color: transparent;
+        }
+
+        .back-btn {
+            padding: 10px 20px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 10px;
+            color: white;
+            text-decoration: none;
+            transition: 0.3s;
+            font-weight: 600;
+        }
+        .back-btn:hover { background: rgba(255,255,255,0.1); transform: translateY(-2px); }
+
+        .header-section {
+            text-align: center;
+            padding: 60px 20px 40px;
+            background: radial-gradient(circle at center, rgba(66, 135, 245, 0.1) 0%, transparent 70%);
+        }
+
+        .header-section h1 {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            font-weight: 800;
+        }
+
+        .header-section p {
+            color: rgba(255,255,255,0.6);
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .search-bar {
+            max-width: 600px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 16px 50px 16px 20px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 14px;
+            color: white;
+            font-size: 1rem;
+            outline: none;
+            transition: 0.3s;
+        }
+        .search-input:focus { border-color: #4287f5; background: rgba(255,255,255,0.08); }
+        .search-input::placeholder { color: rgba(255,255,255,0.3); }
+
+        .games-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+            max-width: 1200px;
+            margin: 0 auto 80px;
+            padding: 0 20px;
+        }
+
+        .game-card {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 18px;
+            overflow: hidden;
+            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer;
+            position: relative;
+        }
+
+        .game-card:hover {
+            transform: translateY(-8px);
+            border-color: #4287f5;
+            box-shadow: 0 15px 40px rgba(66, 135, 245, 0.2);
+        }
+
+        .game-image {
+            width: 100%;
+            height: 180px;
+            background: linear-gradient(135deg, #4287f5, #c850b4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .game-image::before {
+            content: '';
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: pulse 3s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.1); opacity: 0.8; }
+        }
+
+        .game-content {
+            padding: 25px;
+        }
+
+        .game-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .game-desc {
+            color: rgba(255,255,255,0.5);
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+
+        .game-tags {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .tag {
+            padding: 5px 12px;
+            background: rgba(66, 135, 245, 0.15);
+            border: 1px solid rgba(66, 135, 245, 0.3);
+            border-radius: 20px;
+            font-size: 0.75rem;
+            color: #4287f5;
+            font-weight: 600;
+        }
+
+        .tag.hot {
+            background: rgba(255, 68, 68, 0.15);
+            border-color: rgba(255, 68, 68, 0.3);
+            color: #ff4444;
+        }
+
+        .tag.new {
+            background: rgba(0, 255, 136, 0.15);
+            border-color: rgba(0, 255, 136, 0.3);
+            color: #00ff88;
+        }
+
+        .stats {
+            display: flex;
+            gap: 15px;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .stat {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: rgba(255,255,255,0.4);
+            font-size: 0.85rem;
+        }
+
+        .stat i { color: #4287f5; }
+
+        footer {
+            text-align: center;
+            padding: 40px 20px 60px;
+            color: rgba(255,255,255,0.2);
+            font-size: 0.85rem;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 60px 20px;
+            color: rgba(255,255,255,0.4);
+            font-size: 1.1rem;
+            display: none;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="navbar">
+        <div class="logo">MinhZ Hub</div>
+        <a href="/" class="back-btn"><i class="fas fa-arrow-left"></i> Back To Home</a>
+    </div>
+
+    <div class="header-section">
+        <h1>Supported Games</h1>
+        <p>Explore our collection of premium Roblox scripts with advanced features and bypasses.</p>
+    </div>
+
+    <div class="search-bar">
+        <input type="text" class="search-input" id="searchInput" placeholder="🔍 Search for games...">
+    </div>
+
+    <div class="games-grid" id="gamesGrid"></div>
+    <div class="no-results" id="noResults">No games found matching your search.</div>
+
+    <footer>
+        Designed By <strong>MinhZ Hub</strong> &copy; 2026
+    </footer>
+
+    <script>
+        const games = [
+            {
+                name: "Blox Fruits",
+                icon: "🍇",
+                desc: "Auto Farm, Devil Fruit ESP, Auto Raid, Boss Farm, and much more!",
+                tags: ["hot", "popular"],
+                features: 50,
+                updated: "2 days ago"
+            },
+            {
+                name: "Arsenal",
+                icon: "🔫",
+                desc: "Silent Aim, ESP, Aimbot, No Recoil, Infinite Ammo, and more!",
+                tags: ["new", "fps"],
+                features: 35,
+                updated: "1 day ago"
+            },
+            {
+                name: "Adopt Me",
+                icon: "🐾",
+                desc: "Auto Trade, Pet Collector, Farm Money, Teleports, and more!",
+                tags: ["popular"],
+                features: 28,
+                updated: "3 days ago"
+            },
+            {
+                name: "Anime Defenders",
+                icon: "⚔️",
+                desc: "Auto Farm, Unit ESP, Auto Upgrade, Infinite Money, and more!",
+                tags: ["hot", "new"],
+                features: 42,
+                updated: "1 day ago"
+            },
+            {
+                name: "Pet Simulator X",
+                icon: "🐶",
+                desc: "Auto Hatch, Pet Dupe, Speed Hack, Teleports, and more!",
+                tags: ["popular"],
+                features: 38,
+                updated: "4 days ago"
+            },
+            {
+                name: "Da Hood",
+                icon: "🏙️",
+                desc: "Silent Aim, ESP, Fly, No Clip, Auto Farm, and more!",
+                tags: ["hot"],
+                features: 45,
+                updated: "2 days ago"
+            },
+            {
+                name: "Jailbreak",
+                icon: "🚓",
+                desc: "Auto Rob, ESP, Teleports, Infinite Nitro, and more!",
+                tags: ["popular"],
+                features: 40,
+                updated: "5 days ago"
+            },
+            {
+                name: "Brookhaven",
+                icon: "🏡",
+                desc: "Fly, Speed, Teleports, House Customization, and more!",
+                tags: ["new"],
+                features: 25,
+                updated: "3 days ago"
+            },
+            {
+                name: "Phantom Forces",
+                icon: "🎯",
+                desc: "Aimbot, ESP, No Recoil, Wallhack, Infinite Ammo, and more!",
+                tags: ["fps"],
+                features: 32,
+                updated: "6 days ago"
+            },
+            {
+                name: "Tower Defense Simulator",
+                icon: "🗼",
+                desc: "Auto Place, Auto Upgrade, Skip Wave, Infinite Money, and more!",
+                tags: ["popular"],
+                features: 30,
+                updated: "4 days ago"
+            },
+            {
+                name: "Murder Mystery 2",
+                icon: "🔪",
+                desc: "ESP, Auto Farm, Coin Farm, Kill All, Teleports, and more!",
+                tags: ["hot"],
+                features: 27,
+                updated: "2 days ago"
+            },
+            {
+                name: "Roblox Rivals",
+                icon: "🎮",
+                desc: "Silent Aim, Aimbot, ESP, Fly, Speed Hack, and more!",
+                tags: ["new", "fps"],
+                features: 36,
+                updated: "1 day ago"
+            }
+        ];
+
+        function renderGames(gamesToRender) {
+            const grid = document.getElementById('gamesGrid');
+            const noResults = document.getElementById('noResults');
+            
+            if (gamesToRender.length === 0) {
+                grid.style.display = 'none';
+                noResults.style.display = 'block';
+                return;
+            }
+
+            grid.style.display = 'grid';
+            noResults.style.display = 'none';
+            
+            grid.innerHTML = gamesToRender.map(game => `
+                <div class="game-card">
+                    <div class="game-image">${game.icon}</div>
+                    <div class="game-content">
+                        <h3 class="game-title">${game.name}</h3>
+                        <p class="game-desc">${game.desc}</p>
+                        <div class="game-tags">
+                            ${game.tags.map(tag => `<span class="tag ${tag}">${tag.toUpperCase()}</span>`).join('')}
+                        </div>
+                        <div class="stats">
+                            <span class="stat"><i class="fas fa-star"></i> ${game.features}+ Features</span>
+                            <span class="stat"><i class="fas fa-clock"></i> ${game.updated}</span>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Initial render
+        renderGames(games);
+
+        // Search functionality
+        document.getElementById('searchInput').addEventListener('input', (e) => {
+            const searchTerm = e.target.value.toLowerCase();
+            const filtered = games.filter(game => 
+                game.name.toLowerCase().includes(searchTerm) ||
+                game.desc.toLowerCase().includes(searchTerm) ||
+                game.tags.some(tag => tag.toLowerCase().includes(searchTerm))
+            );
+            renderGames(filtered);
+        });
+    </script>
+</body>
+</html>
