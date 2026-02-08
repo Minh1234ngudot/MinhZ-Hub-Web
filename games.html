@@ -148,27 +148,29 @@
         .game-image {
             width: 100%;
             height: 180px;
-            background: linear-gradient(135deg, #4287f5, #c850b4);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 4rem;
             position: relative;
             overflow: hidden;
+            background: #000;
+        }
+
+        .game-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: 0.4s;
+        }
+
+        .game-card:hover .game-image img {
+            transform: scale(1.1);
         }
 
         .game-image::before {
             content: '';
             position: absolute;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
-            animation: pulse 3s ease-in-out infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); opacity: 0.5; }
-            50% { transform: scale(1.1); opacity: 0.8; }
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.4) 100%);
+            z-index: 1;
         }
 
         .game-content {
@@ -259,6 +261,52 @@
             margin-right: 8px;
         }
 
+        .status-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            z-index: 2;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .status-badge.working {
+            background: rgba(0, 255, 136, 0.9);
+            color: #000;
+            box-shadow: 0 4px 15px rgba(0, 255, 136, 0.4);
+        }
+
+        .status-badge.updating {
+            background: rgba(255, 188, 0, 0.9);
+            color: #000;
+            box-shadow: 0 4px 15px rgba(255, 188, 0, 0.4);
+        }
+
+        .status-badge.broken {
+            background: rgba(255, 68, 68, 0.9);
+            color: #fff;
+            box-shadow: 0 4px 15px rgba(255, 68, 68, 0.4);
+        }
+
+        .status-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: currentColor;
+            animation: pulse-dot 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse-dot {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
         footer {
             text-align: center;
             padding: 40px 20px 60px;
@@ -312,35 +360,41 @@
             {
                 name: "Just A Baseplate",
                 icon: "🟦",
+                image: "https://tr.rbxcdn.com/180DAY-20f1913cc86f121dbbe4c246932e0e34/768/432/Image/Webp/noFilter",
                 desc: "Full featured script with advanced tools and utilities for baseplate building!",
                 tags: ["hot", "new"],
                 features: 25,
                 updated: "1 day ago",
                 gameId: "123974602339071",
                 theme: "baseplate",
-                gameLink: "https://www.roblox.com/games/123974602339071"
+                gameLink: "https://www.roblox.com/games/123974602339071",
+                status: "working"
             },
             {
                 name: "Green Baseplate",
                 icon: "🟩",
+                image: "https://tr.rbxcdn.com/180DAY-adaf587baf97eb68fcc76ad57031d35b/768/432/Image/Webp/noFilter",
                 desc: "Premium script with enhanced features for creative baseplate gameplay!",
                 tags: ["popular"],
                 features: 20,
                 updated: "2 days ago",
                 gameId: "88308889239232",
                 theme: "baseplate",
-                gameLink: "https://www.roblox.com/games/88308889239232"
+                gameLink: "https://www.roblox.com/games/88308889239232",
+                status: "working"
             },
             {
                 name: "Prison Life",
                 icon: "⛓️",
+                image: "https://tr.rbxcdn.com/180DAY-8e16b433df6f2c94391865bc438e076a/768/432/Image/Webp/noFilter",
                 desc: "Escape prison with advanced tools, teleports, kill all, and more features!",
                 tags: ["hot", "popular"],
                 features: 35,
                 updated: "1 day ago",
                 gameId: "155615604",
                 theme: "prison",
-                gameLink: "https://www.roblox.com/games/155615604"
+                gameLink: "https://www.roblox.com/games/155615604",
+                status: "working"
             }
         ];
 
@@ -361,7 +415,13 @@
             
             grid.innerHTML = gamesToRender.map(game => `
                 <div class="game-card">
-                    <div class="game-image">${game.icon}</div>
+                    <div class="game-image">
+                        <img src="${game.image}" alt="${game.name}" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22><text y=%2250%%22 font-size=%2248%22>${game.icon}</text></svg>'">
+                        <span class="status-badge ${game.status}">
+                            <span class="status-dot"></span>
+                            ${game.status}
+                        </span>
+                    </div>
                     <div class="game-content">
                         <h3 class="game-title">${game.name}</h3>
                         <p class="game-desc">${game.desc}</p>
