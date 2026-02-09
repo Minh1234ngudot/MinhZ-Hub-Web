@@ -10,7 +10,8 @@
     },
     {
       "source": "/global-tas",
-      "destination": "/MinhZ-Loader/others/global-tas"
+      "destination": "/others/global-tas"
     }
   ]
 }
+
