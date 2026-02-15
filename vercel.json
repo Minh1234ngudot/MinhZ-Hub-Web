@@ -1,5 +1,5 @@
 {
-  "rewrites": {
+  "rewrites": [
     {
       "source": "/games",
       "destination": "/games.html"
@@ -15,10 +15,10 @@
     {
       "source": "/fps-counter",
       "destination": "/others/fps-counter"
-    }
+    },
     {
       "source": "/minhz-hitbox-expande",
       "destination": "/others/minhz-hitbox-expande"
     }
-  }
+  ]
 }
